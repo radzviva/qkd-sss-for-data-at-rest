@@ -1,0 +1,8 @@
+
+[package]
+name = "qkd_data_at_rest"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+hex = "0.4"

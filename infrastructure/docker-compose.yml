@@ -1,0 +1,50 @@
+# docker-compose.yml
+
+services:
+  alice:
+    build:
+      context: .
+      dockerfile: orchestrator/Dockerfile
+    command:
+      - "-c"
+      - "config/examples/alice.yaml"
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - server-1
+      - server-2
+      - server-3
+  bob:
+    build:
+      context: .
+      dockerfile: orchestrator/Dockerfile
+    command:
+      - "-c"
+      - "config/examples/bob.yaml"
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - server-1
+      - server-2
+      - server-3
+  server-1:
+    build:
+      context: .
+      dockerfile: storage_server/Dockerfile
+    container_name: server-1
+    ports:
+      - "8001:8000"
+  server-2:
+    build:
+      context: .
+      dockerfile: storage_server/Dockerfile
+    container_name: server-2
+    ports:
+      - "8002:8000"
+  server-3:
+    build:
+      context: .
+      dockerfile: storage_server/Dockerfile
+    container_name: server-3
+    ports:
+      - "8003:8000"

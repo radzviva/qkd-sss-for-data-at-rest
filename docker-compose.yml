@@ -1,0 +1,37 @@
+services:
+  ######################################################################
+  # QKD  —————————————————————————————————————————————— Alice & Bob   #
+  ######################################################################
+  bob:
+    build: ./qkd
+    working_dir: /app/qkd
+    command: python bob.py
+    volumes:
+      - ./qkd:/app/qkd                              # source code
+      - ./shared_keys/bob/raw:/app/qkd/keys       # Bob still writes raw key here
+                                                    # (keep for symmetry / future demo)
+
+  alice:
+    build: ./qkd
+    working_dir: /app/qkd
+    command: python alice.py
+    depends_on: [bob]
+    volumes:
+      - ./qkd:/app/qkd
+      - ./shared_keys/alice/raw:/app/qkd/keys       #               ▼
+                                                    # alice_raw_key.txt ends up in:
+                                                    #   shared_keys/alice/raw/
+
+  ######################################################################
+  # SSS  ————————————————————————————————————————————— split / combine #
+  ######################################################################
+  sss:
+    image: python:3.9-slim
+    working_dir: /app/sss
+    command: tail -f /dev/null                      # keep container alive
+    volumes:
+      - ./sss:/app/sss                              # SSS source code
+      - ./shared_keys/alice/raw:/app/sss/data/inbox:ro   # read-only inbox ← Alice raw key
+      - ./sss/data/outbox:/app/sss/data/outbox           # shares land here (host-visible)
+
+# Only bind-mounts → no named volumes section required

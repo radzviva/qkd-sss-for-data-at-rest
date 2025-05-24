@@ -1,0 +1,2 @@
+CREATE DATABASE sample_db;
+CREATE TABLE test (id INT, name VARCHAR(50));

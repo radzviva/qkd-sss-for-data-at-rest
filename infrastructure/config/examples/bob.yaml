@@ -1,0 +1,10 @@
+id: bob
+role: bob
+neighbours:
+  - id: server-1
+    url: http://server-1:8000
+  - id: server-2
+    url: http://server-2:8000
+  - id: server-3
+    url: http://server-3:8000
+threshold: 3

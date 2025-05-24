@@ -1,0 +1,15 @@
+/**/*.rs.bk
+
+# Python
+venv/
+**/__pycache__/
+**/*.pyc
+
+# Git internals
+.git/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*~
+*.swp

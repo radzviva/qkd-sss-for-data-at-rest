@@ -1,0 +1,29 @@
+############ 1MB file ##########
+### 1. ENC
+Input file size: 1.00 MB
+Output file size: 1.00 MB
+Elapsed time: 25.042 seconds
+### 2. DEC
+Input file size: 1.00 MB
+Output file size: 1.00 MB
+Elapsed time: 20.932 seconds
+
+############ 10MB file ##########
+### 1. ENC
+Input file size: 10.00 MB
+Output file size: 10.00 MB
+Elapsed time: 210.798 seconds
+### 2. DEC
+Input file size: 10.00 MB
+Output file size: 10.00 MB
+Elapsed time: 198.520 seconds
+
+############ 100MB file ##########
+### 1. ENC
+Input file size: 100.00 MB
+Output file size: 100.00 MB
+Elapsed time: 2125.127 seconds
+### 2. DEC
+Input file size: 100.00 MB
+Output file size: 100.00 MB
+Elapsed time: 1998.470 seconds

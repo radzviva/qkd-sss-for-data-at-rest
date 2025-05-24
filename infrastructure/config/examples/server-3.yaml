@@ -1,0 +1,5 @@
+# config/examples/server-3.yaml
+id: server-3
+role: storage
+neighbours: []
+threshold: 0
