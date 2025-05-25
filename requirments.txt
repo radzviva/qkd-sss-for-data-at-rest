@@ -4,8 +4,16 @@ uvicorn[standard]>=0.21.0
 pyyaml>=6.0
 httpx>=0.24.0
 
+# GIF/Video generation (requires ffmpeg binary installed separately!)
+ffmpeg-python>=0.2.0
+
 # Testing
 pytest>=7.0.0
 pytest-asyncio>=0.21.0
 coverage>=7.0.0
 
+# System requirement (NOT installed by pip):
+# You must have ffmpeg installed on your OS. For example, run:
+#   sudo apt install ffmpeg
+#   # or on Mac:
+#   brew install ffmpeg

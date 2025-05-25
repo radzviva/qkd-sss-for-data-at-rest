@@ -200,6 +200,7 @@ echo
 # ─── STEP 8 – Stage & decrypt with AES ─────────────────────────────────────
  echo; echo "▶▶ STEP 8a – Sending SSS recovered key to AES module"
  t0_key_recv=$(now_ms)
+ "$ROOT/scripts/aes_clean.sh"
  mkdir -p "$ROOT/aes/data/inbox/file" "$ROOT/aes/data/inbox/key" "$ROOT/aes/data/inbox/todo"
  # copy into key/key so AES sees exactly inbox/key/key
  cp "$ROOT/shared_keys/bob/combine/recovered.txt" "$ROOT/aes/data/inbox/key/key"
@@ -212,6 +213,7 @@ echo
  # 8c) Run the AES decryption step
 echo
 echo "▶▶ STEP 8c – Running AES decryption"
+t0_aes_dec=$(now_ms)
 pushd "$ROOT/aes" >/dev/null
 
 # try a decrypt target, fall back to 'make run'
@@ -222,18 +224,26 @@ elif make run; then
 else
   echo "❌ ERROR: neither 'make decrypt' nor 'make run' succeeded in aes/"
   popd >/dev/null
+  t1_aes_dec=$(now_ms)
   exit 1
 fi
 
 popd >/dev/null
+t1_aes_dec=$(now_ms)
 
-dec_file="dec_${base}"
+dec_file="dec_enc_${base}"
 echo "   • Decryption complete → aes/data/outbox/$dec_file"
 
 echo
 echo ">>>>> VERIFY decrypted file matches original"
-ORIG="$sel"
-DECR="$ROOT/shared_keys/bob/decrypted/$dec_file"
+
+
+if cmp -s "$sel" "$ROOT/aes/data/outbox/$dec_file"; then
+  FILE_MATCH="yes"
+else
+  FILE_MATCH="no"
+fi
+
 
 echo
 echo
@@ -253,10 +263,14 @@ echo
 
 
 # gif
+
+# 9) Optional GIF visualization
+echo
+echo "▶▶ STEP 9 – Optional Visualization"
+# gif
 "$ROOT/scripts/visualize.sh" scripts/simple.gif "$base" "$NUM_SHARES" "$THRESHOLD" annotated.gif
 
-echo
-echo
+
 # ─── Performance Summary ────────────────────────
 echo "###############################"
 echo "# Performance Summary (ms)    #"
@@ -308,10 +322,8 @@ read -rp "Press any key to finish…" -n1
 echo
 
 # ─── Final Cleanup 
-echo ">>>> Cleaning up AES session files"
+echo " >>>> Cleaning up AES session files"
 "$ROOT/scripts/aes_clean.sh"
-echo ">>>> Cleaning up QKD & SSS session files"
+echo " >>>> Cleaning up QKD & SSS session files"
 "$ROOT/scripts/reset_qkd_sss.sh"
-
-rm -rf shared_keys/bob/decrypted 2>/dev/null || true
-echo "Thank you for using the QKD-AES simulator!"
+echo " Thank you for using the QKD-AES simulator!"
